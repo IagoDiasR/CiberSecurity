@@ -37,7 +37,8 @@ jobs:
 
     - name: Rodar Syhunt Code
       run: |
-        "C:\Program Files\Syhunt Community\Sandcat.exe" scan "C:\Users\USER\Desktop\VanGo-BackEnd-main" -t java -report "C:\Users\USER\Desktop\VanGo-BackEnd-main\relatorios\Sast.html"
+       Start-Process "C:\Program Files\Syhunt Community\Sandcat.exe" -ArgumentList "scan", "C:\Users\USER\Desktop\VanGo-BackEnd-main", "-t", "java", "-report", "C:\Users\USER\Desktop\VanGo-BackEnd-main\relatorios\Sast.html"
+
 
   dast-syhunt:
     name: DAST com Syhunt
