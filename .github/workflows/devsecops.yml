@@ -1,0 +1,49 @@
+name: DevSecOps CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-java:
+    name: Build e Testes do Projeto Java
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clonar o repositório
+      uses: actions/checkout@v3
+
+    - name: Instalar Java 17
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Compilar o projeto
+      run: mvn compile
+
+    - name: Rodar os testes
+      run: mvn test
+
+  sast-syhunt:
+    name: SAST com Syhunt
+    runs-on: self-hosted
+
+    steps:
+    - name: Clonar repositório
+      uses: actions/checkout@v3
+
+    - name: Rodar Syhunt Code
+      run: |
+        "C:\Program Files\Syhunt Community\Sandcat.exe" scan "C:\Users\USER\Desktop\VanGo-BackEnd-main" -t java -report "C:\Users\USER\Desktop\VanGo-BackEnd-main\relatorios\Sast.html"
+
+  dast-syhunt:
+    name: DAST com Syhunt
+    runs-on: self-hosted
+
+    steps:
+    - name: Rodar Syhunt Hybrid
+      run: |
+        "C:\Program Files\Syhunt Community\Sandcat.exe" scan site "https://van-go-zeta.vercel.app" -report "C:\Users\USER\Desktop\VanGo-BackEnd-main\relatorios\Dast.html"
